@@ -156,7 +156,7 @@ impl Miner {
         }
 
         // Send and confirm
-        ixs.push(ore_pool_api::sdk::claim(
+        ixs.push(eore_pool_api::sdk::claim(
             self.signer().pubkey(),
             beneficiary,
             pool_address.address,

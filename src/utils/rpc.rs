@@ -6,7 +6,7 @@ use eore_api::{
     state::{proof_pda, Bus, Config, Proof, Treasury},
 };
 use eore_boost_api::state::{Boost, Stake};
-use ore_pool_api::state::{Member, Pool};
+use eore_pool_api::state::{Member, Pool};
 use serde::Deserialize;
 use solana_account_decoder::UiAccountEncoding;
 use solana_client::nonblocking::rpc_client::RpcClient;
@@ -125,7 +125,7 @@ pub async fn get_boosts(client: &RpcClient) -> Result<Vec<(Pubkey, Boost)>, anyh
 }
 
 pub async fn get_pools(client: &RpcClient) -> Result<Vec<(Pubkey, Pool)>, anyhow::Error> {
-    get_program_accounts::<Pool>(client, ore_pool_api::ID, vec![]).await
+    get_program_accounts::<Pool>(client, eore_pool_api::ID, vec![]).await
 }
 
 pub async fn get_pool(client: &RpcClient, address: Pubkey) -> Result<Pool, anyhow::Error> {
