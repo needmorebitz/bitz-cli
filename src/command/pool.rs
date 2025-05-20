@@ -3,7 +3,7 @@ use std::sync::Arc;
 use crossterm::style::Stylize;
 use drillx::Solution;
 use eore_api::state::proof_pda;
-use ore_pool_api::state::member_pda;
+use eore_pool_api::state::member_pda;
 use ore_pool_types::{
     BalanceUpdate, ContributePayload, Member, MemberChallenge, PoolAddress, RegisterPayload,
     UpdateBalancePayload,
@@ -231,7 +231,7 @@ impl Pool {
         if let Err(_err) = self.get_pool_member_onchain(miner, pool_pda.address).await {
             // on-chain member account not found
             // create one before submitting register payload to pool
-            let ix = ore_pool_api::sdk::join(pubkey, pool_pda.address, pubkey);
+            let ix = eore_pool_api::sdk::join(pubkey, pool_pda.address, pubkey);
             let _ = miner
                 .send_and_confirm(&[ix], ComputeBudget::Fixed(200_000), false)
                 .await?;
@@ -273,11 +273,11 @@ impl Pool {
         &self,
         miner: &Miner,
         pool_address: Pubkey,
-    ) -> Result<ore_pool_api::state::Member, Error> {
+    ) -> Result<eore_pool_api::state::Member, Error> {
         let (member_pda, _) =
-            ore_pool_api::state::member_pda(miner.signer().pubkey(), pool_address);
+            eore_pool_api::state::member_pda(miner.signer().pubkey(), pool_address);
         let data = miner.rpc_client.get_account_data(&member_pda).await?;
-        let pool = ore_pool_api::state::Member::try_from_bytes(data.as_slice())?;
+        let pool = eore_pool_api::state::Member::try_from_bytes(data.as_slice())?;
         Ok(*pool)
     }
 
@@ -299,11 +299,11 @@ impl Pool {
         miner: &Miner,
         pool_address: Pubkey,
         mint: Pubkey,
-    ) -> Result<ore_pool_api::state::Share, Error> {
+    ) -> Result<eore_pool_api::state::Share, Error> {
         let (share_pda, _) =
-            ore_pool_api::state::share_pda(miner.signer().pubkey(), pool_address, mint);
+            eore_pool_api::state::share_pda(miner.signer().pubkey(), pool_address, mint);
         let data = miner.rpc_client.get_account_data(&share_pda).await?;
-        let share = ore_pool_api::state::Share::try_from_bytes(data.as_slice())?;
+        let share = eore_pool_api::state::Share::try_from_bytes(data.as_slice())?;
         Ok(*share)
     }
 
@@ -386,11 +386,11 @@ impl Pool {
         // fetch pool for authority
         let pool = self.get_pool_address().await?;
         let data = miner.rpc_client.get_account_data(&pool.address).await?;
-        let pool = ore_pool_api::state::Pool::try_from_bytes(data.as_slice())?;
+        let pool = eore_pool_api::state::Pool::try_from_bytes(data.as_slice())?;
         let pool_authority = pool.authority;
 
         // build attribute instruction
-        let ix = ore_pool_api::sdk::attribute(
+        let ix = eore_pool_api::sdk::attribute(
             pool_authority,
             *signer_pubkey,
             member.total_balance as u64,
