@@ -207,6 +207,7 @@ impl Miner {
             let member_challenge = match pool.get_updated_pool_challenge(self, last_hash_at).await {
                 Err(_err) => {
                     tokio::time::sleep(tokio::time::Duration::from_secs(5)).await;
+                    last_hash_at = 0;
                     continue;
                 }
                 Ok(member_challenge) => member_challenge,

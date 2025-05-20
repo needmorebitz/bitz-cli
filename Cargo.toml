@@ -1,6 +1,6 @@
 [package]
 name = "bitz"
-version = "3.4.26"
+version = "3.4.27"
 edition = "2021"
 license = "Apache-2.0"
 description = "A command line interface for BITZ cryptocurrency collecting."

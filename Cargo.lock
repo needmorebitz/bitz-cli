@@ -544,7 +544,7 @@ dependencies = [
 
 [[package]]
 name = "bitz"
-version = "3.4.26"
+version = "3.4.27"
 dependencies = [
  "anyhow",
  "b64",
